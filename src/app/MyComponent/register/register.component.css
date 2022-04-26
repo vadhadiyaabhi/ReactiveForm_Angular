@@ -1,0 +1,20 @@
+.container{
+    width: 80%;
+    margin: auto;
+}
+
+.full-width{
+    width: 80%;
+    margin: auto;
+    display: block;
+}
+
+form{
+    padding: 30px 0px;
+    border: 1px solid gold;
+    border-radius: 7px;
+}
+
+.btn-full{
+    width: 100%;
+}

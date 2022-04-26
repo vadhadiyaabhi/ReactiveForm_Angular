@@ -1,0 +1,206 @@
+
+<div class="container">
+    <h2 class="text-center">Register With ReactiveForm</h2>
+    <div class="container pb-5">
+        <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+
+            {{registrationForm.value | json}}
+            <mat-form-field class="full-width" appearance="fill" color="accent">
+                <mat-label>Username</mat-label>
+                <input type="text" matInput formControlName="username"  placeholder="Enter Username">
+                <mat-error *ngIf="username?.errors?.pattern">
+                    Username cannot containe white spcaes and Special Chars otherthan @,#,.,*,&
+                </mat-error>
+                <mat-error *ngIf="username?.invalid && username?.errors?.required">
+                    Username is <strong>must</strong>
+                </mat-error>
+                <mat-error *ngIf="username?.errors?.forbiddenName">
+                    Username "{{ username?.errors?.forbiddenName.value }}" is <strong>not allowed</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="fill" color="accent">
+                <mat-label>First Name</mat-label>
+                <input type="text" matInput formControlName="firstname"  placeholder="Enter Firstname">
+                <mat-error *ngIf="firstname?.errors?.pattern">
+                    Name should contain only Alphabets without space
+                </mat-error>
+                <mat-error *ngIf="firstname?.errors?.required">
+                    Firstname is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="fill" color="accent">
+                <mat-label>Last Name</mat-label>
+                <input type="text" matInput formControlName="lastname"  placeholder="Enter Lastname">
+                <mat-error *ngIf="lastname?.errors?.pattern">
+                    Name should contain only Alphabets without space
+                </mat-error>
+                <mat-error *ngIf="lastname?.errors?.required">
+                    Lastname is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="fill" color="accent">
+                <mat-label>Mobile no.</mat-label>
+                <input type="text" matInput formControlName="mobile"  placeholder="Enter Mobile Number">
+                <mat-error *ngIf="mobile?.errors?.pattern">
+                    Mobile number must have 10 digits only
+                </mat-error>
+                <mat-error *ngIf="mobile?.errors?.required">
+                    Mobile number is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="fill" color="accent">
+                <mat-label>Email Address</mat-label>
+                <input type="email" matInput formControlName="email"  placeholder="Enter Valid Email, Ex. pat@example.com">
+                <mat-error *ngIf="email?.errors?.email">
+                    Please enter valid Email
+                </mat-error>
+                <mat-error *ngIf="email?.errors?.required">
+                    Email is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-checkbox formControlName="subscribed" class="example-margin full-width mb-3">Send me subscribe notification to this email</mat-checkbox>
+            <mat-form-field class="full-width" appearance="fill" color="accent">
+                <mat-label>Password</mat-label>
+                <input formControlName="password" [type]="hide ? 'password' : 'text'" matInput  placeholder="Password must contain A-Z & a-z & 0-9">
+                <span mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </span>
+                <mat-error *ngIf="password?.errors?.pattern">
+                    Password must contain atleast 6 chars containing atleast one Uppercase,Lowercase letter and Digit
+                </mat-error>
+                <mat-error *ngIf="password?.errors?.required">
+                    Password is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="fill" color="accent" [class.mat-form-field-invalid]="registrationForm.errors?.misMatch && confPass?.touched">
+                <mat-label>Confirm Password</mat-label>
+                <input formControlName="confPass" [type]="hide ? 'password' : 'text'" matInput  placeholder="Password must contain A-Z & a-z & 0-9">
+                <span mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </span>
+                <!-- <mat-error *ngIf="registrationForm.errors?.misMatch ">
+                    must match
+                </mat-error> -->
+                <small *ngIf="registrationForm.errors?.misMatch && !confPass?.errors?.required">Must match</small>
+                <mat-error *ngIf="confPass?.errors?.required">
+                    Confirm Password is <strong>required</strong>
+                </mat-error>
+            </mat-form-field>
+            <!-- <small [class.d-none]="!registrationForm.errors?.misMatch && !confPass?.touched" class="text-danger">Must match</small> -->
+            {{registrationForm.errors?.misMatch}}
+            {{confPass?.errors?.required}}
+            <!-- {{registrationForm.invalid}} -->
+            <div class="full-width">
+                <div class="d-inline-block" style="width: 50%;">
+                    <mat-radio-group formControlName="gender" aria-label="Select an option">
+                        <mat-label class="me-3">Select Gender</mat-label>
+                        <mat-radio-button value="1" class="me-3">Male</mat-radio-button>
+                        <mat-radio-button value="2">Female</mat-radio-button>
+                        <mat-error *ngIf="radioSelect ">
+                            Please select gender
+                        </mat-error>
+                    </mat-radio-group>
+                </div>
+                <div class="d-inline-block" style="width: 50%;">
+                    <mat-form-field appearance="fill" class="example-form-field" color="accent">
+                        <mat-label>Choose a date</mat-label>
+                        <input formControlName="birthdate" matInput [matDatepicker]="datepicker">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                        <mat-datepicker #datepicker>
+                          <mat-datepicker-actions>
+                            <button mat-button matDatepickerCancel>Cancel</button>
+                            <button mat-raised-button color="accent" matDatepickerApply>Apply</button>
+                          </mat-datepicker-actions>
+                        </mat-datepicker>
+                      </mat-form-field>
+                </div>
+            </div>
+            <div class="full-width" formGroupName="address">
+                <div class="d-inline-block" style="width: 33%;">
+                    <mat-form-field class="full-width" appearance="fill" color="accent">
+                        <mat-label>Street</mat-label>
+                        <input formControlName="street" type="text" matInput  placeholder="Enter Street Name">
+                        <mat-error *ngIf="">
+                            
+                        </mat-error>
+                        <mat-error *ngIf="">
+                            <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="d-inline-block" style="width: 33%;">
+                    <mat-form-field class="full-width" appearance="fill" color="accent">
+                        <mat-label>City</mat-label>
+                        <input formControlName="city" type="text" matInput  placeholder="Enter City Name">
+                        <mat-error *ngIf="">
+                            
+                        </mat-error>
+                        <mat-error *ngIf="">
+                            <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="d-inline-block" style="width: 33%;">
+                    <mat-form-field class="full-width" appearance="fill" color="accent">
+                        <mat-label>Postal Code</mat-label>
+                        <input formControlName="postalCode" type="text" matInput  placeholder="Enter Postal Code">
+                        <mat-error *ngIf="">
+                            
+                        </mat-error>
+                        <mat-error *ngIf="">
+                            <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="full-width">
+                <button type="button" mat-raised-button color="primary" (click)="addMoreAddress()" class="my-3">+ Add New Address</button>
+            </div>
+            <div *ngFor="let newAddress of moreAddress.controls; let i=index" class="full-width" formArrayName="moreAddress">
+                <div [formGroupName]="i">
+                    <div class="d-inline-block" style="width: 33%;">
+                        <mat-form-field class="full-width" appearance="fill" color="accent">
+                            <mat-label>Street</mat-label>
+                            <input type="text" formControlName="street" matInput  placeholder="Enter Street Name">
+                            <mat-error *ngIf="">
+                                
+                            </mat-error>
+                            <mat-error *ngIf="">
+                                <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="d-inline-block" style="width: 33%;">
+                        <mat-form-field class="full-width" appearance="fill" color="accent">
+                            <mat-label>City</mat-label>
+                            <input formControlName="city" type="text" matInput  placeholder="Enter City Name">
+                            <mat-error *ngIf="">
+                                
+                            </mat-error>
+                            <mat-error *ngIf="">
+                                <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="d-inline-block" style="width: 33%;">
+                        <mat-form-field class="full-width" appearance="fill" color="accent">
+                            <mat-label>Postal Code</mat-label>
+                            <input formControlName="postalCode" type="text" matInput  placeholder="Enter Postal Code">
+                            <mat-error *ngIf="">
+                                
+                            </mat-error>
+                            <mat-error *ngIf="">
+                                <strong>required</strong>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="full-width">
+                <button [disabled]="registrationForm.invalid" mat-raised-button type="submit" class="btn-full" color="accent">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
