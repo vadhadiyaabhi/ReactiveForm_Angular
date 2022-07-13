@@ -28,6 +28,7 @@ export class RegisterComponent implements OnInit {
       email: [''],
       subscribed: [false],
       password: ['', [Validators.required, Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{6,14}')]],
+      // Password with atleast one Special Char:   "^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
       confPass: ['', Validators.required],
       gender: ['', Validators.required],
       birthdate: ['', [Validators.required]],
@@ -38,7 +39,7 @@ export class RegisterComponent implements OnInit {
       }),
       moreAddress: this.fb.array([])
   
-    }, { validator : PasswordValidator } );
+    }, { validators : PasswordValidator } );
 
     this.registrationForm.get('subscribed').valueChanges
       .subscribe(checkedValue => {
